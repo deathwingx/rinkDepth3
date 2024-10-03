@@ -42,8 +42,8 @@ public class HomeFragment extends Fragment {
 
         String path = "http://192.168.1.8:8080/C:\\Users\\berna\\Documents\\rinkDepth";
         Context cont = root.getContext();
-        File file = new File(cont.getFilesDir(), "test.txt");
-        String data = "Hello World!";
+        File file = new File(cont.getFilesDir(), "test.csv");
+        String data = "1.25, 565.34563, 234.234523452";
 
         rinkImg = root.findViewById(R.id.proRinkImg);
         rinkImg.setImageResource(R.drawable.prorink);
@@ -59,10 +59,18 @@ public class HomeFragment extends Fragment {
 
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                new Thread(() -> {
-                    String res = tcpfile.createFile(cont, file, path, data);
-                    response.setText(res);
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final String res = tcpfile.createFile(cont, file, path, data);
+                        response.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                response.setText(res);
+                            }
+                        });
+                    }
                 }).start();
             }
         });
