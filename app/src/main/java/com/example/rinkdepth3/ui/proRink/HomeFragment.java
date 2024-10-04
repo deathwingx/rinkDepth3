@@ -10,6 +10,7 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,7 @@ import com.example.rinkdepth3.TCPFile;
 import com.example.rinkdepth3.databinding.FragmentHomeBinding;
 
 import java.io.File;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
@@ -43,7 +45,7 @@ public class HomeFragment extends Fragment {
         String path = "http://192.168.1.8:8080/C:\\Users\\berna\\Documents\\rinkDepth";
         Context cont = root.getContext();
         File file = new File(cont.getFilesDir(), "test.csv");
-        String data = "1.25, 565.34563, 234.234523452";
+        String[] data = {"5", "234.2342342", "345.2345234"};
 
         rinkImg = root.findViewById(R.id.proRinkImg);
         rinkImg.setImageResource(R.drawable.prorink);
@@ -63,11 +65,18 @@ public class HomeFragment extends Fragment {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        final String res = tcpfile.createFile(cont, file, path, data);
+                        final String res = tcpfile.uploadDocument(cont, file, data);
                         response.post(new Runnable() {
                             @Override
                             public void run() {
                                 response.setText(res);
+                                if (Objects.equals(res, "Done!"))
+                                {
+                                    Toast.makeText(cont, "Sent", Toast.LENGTH_SHORT).show();
+                                }else
+                                {
+                                    Toast.makeText(cont, "Failed to send!", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
                     }
