@@ -97,7 +97,7 @@ public class TCPFile
                 appendToFile(cont, file, data);
             }else
             {
-                writeToFile(cont, file, data);
+                writeToFile(cont, newFile, data);
             }
         }catch (IOException e)
         {

@@ -44,7 +44,7 @@ public class DashboardFragment extends Fragment {
 
         TCPFile tcpFile = new TCPFile();
         Context cont = root.getContext();
-        File file = new File(cont.getFilesDir(), "test.csv");
+        File file = new File(cont.getFilesDir(), "test1.csv");
         String[] depthxy = {"","",""};
         TextView touchLocation;
         ImageView jrRinkImage;
@@ -60,7 +60,6 @@ public class DashboardFragment extends Fragment {
         jrRinkImage.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                String[] depthstr = new String[3];
                 final int action = event.getAction();
                 if (action == MotionEvent.ACTION_DOWN)
                 {
@@ -75,20 +74,24 @@ public class DashboardFragment extends Fragment {
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String[] res = new String[1];
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        res[0] = tcpFile.uploadDocument(cont, file, depthxy);
+                        final String res = tcpFile.uploadDocument(cont, file, depthxy);
+                        touchLocation.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (Objects.equals(res, "Done!"))
+                                {
+                                    Toast.makeText(cont, "Sent", Toast.LENGTH_SHORT).show();
+                                }else
+                                {
+                                    Toast.makeText(cont, "Failed to send!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
                 }).start();
-                if (Objects.equals(res[0], "Done!"))
-                {
-                    Toast.makeText(cont, "Sent", Toast.LENGTH_SHORT).show();
-                }else
-                {
-                    Toast.makeText(cont, "Failed to send!", Toast.LENGTH_SHORT).show();
-                }
             }
         });
         return root;
@@ -96,7 +99,7 @@ public class DashboardFragment extends Fragment {
 
     public String showBuilder(Context cont, String[] depthxy)
     {
-        File file = new File(cont.getFilesDir(), "test.csv");
+        File file = new File(cont.getFilesDir(), "test1.csv");
         TCPFile tcpFile = new TCPFile();
         AlertDialog.Builder builder = new AlertDialog.Builder(cont);
         builder.setTitle("Depth");
