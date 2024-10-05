@@ -76,14 +76,14 @@ public class TCPFile
             socket.shutdownOutput();
             String res = read.readLine();
             Log.d("Received: ", res);
-            if (res == "Received!")
+            if (res.equals("Received!"))
             {
                 socket.close();
                 dos.close();
                 fis.close();
                 read.close();
                 dis.close();
-                return "Done!";
+                return res;
             }else
             {
                 socket.close();
@@ -123,8 +123,8 @@ public class TCPFile
         try
         {
             FileWriter writer = new FileWriter(file);
-            writer.write(data[0] + ", ");
-            writer.write(data[1] + ", ");
+            writer.write(data[0] + ",");
+            writer.write(data[1] + ",");
             writer.write(data[2] + "\n");
             writer.close();
         }catch (IOException e)

@@ -1,14 +1,14 @@
-package com.example.rinkdepth3.ui.notifications;
+package com.example.rinkdepth3.ui.compare;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NotificationsViewModel extends ViewModel {
+public class CompareViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public NotificationsViewModel() {
+    public CompareViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is notifications fragment");
     }

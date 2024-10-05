@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CsvFileAttributes">
+    <option name="attributeMap">
+      <map>
+        <entry key="C:\Users\berna\AppData\Local\Google\AndroidStudio2024.1\device-explorer\New Device API 34\_\data\data\com.example.rinkdepth3\files\100524.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="C:\Users\berna\AppData\Local\Google\AndroidStudio2024.1\device-explorer\New Device API 34\_\data\data\com.example.rinkdepth3\files\test1.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
