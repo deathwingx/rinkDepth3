@@ -27,6 +27,10 @@ import com.example.rinkdepth3.TCPFile;
 import com.example.rinkdepth3.databinding.FragmentDashboardBinding;
 
 import java.io.File;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 public class DashboardFragment extends Fragment {
@@ -44,8 +48,11 @@ public class DashboardFragment extends Fragment {
 
         TCPFile tcpFile = new TCPFile();
         Context cont = root.getContext();
-        File file = new File(cont.getFilesDir(), "test1.csv");
-        String[] depthxy = {"","",""};
+        Format f = new SimpleDateFormat("MM/dd/yy", Locale.US);
+        String strDate = f.format(new Date());
+        strDate = strDate.replace("/", "");
+        File file = new File(cont.getFilesDir(), strDate);
+        String[] depthxy = new String[3];
         TextView touchLocation;
         ImageView jrRinkImage;
         TextView depth;
@@ -63,7 +70,7 @@ public class DashboardFragment extends Fragment {
                 final int action = event.getAction();
                 if (action == MotionEvent.ACTION_DOWN)
                 {
-                    depthxy[0] = showBuilder(cont, depthxy);
+                    depthxy[0] = showBuilder(cont, depthxy, file);
                     depthxy[1] = String.valueOf(event.getX());
                     depthxy[2] = String.valueOf(event.getY());
                     depth.setText(depthxy[0]);
@@ -97,14 +104,13 @@ public class DashboardFragment extends Fragment {
         return root;
     }
 
-    public String showBuilder(Context cont, String[] depthxy)
+    public String showBuilder(Context cont, String[] depthxy, File file)
     {
-        File file = new File(cont.getFilesDir(), "test1.csv");
         TCPFile tcpFile = new TCPFile();
         AlertDialog.Builder builder = new AlertDialog.Builder(cont);
         builder.setTitle("Depth");
         EditText input = new EditText(cont);
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         builder.setView(input);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override

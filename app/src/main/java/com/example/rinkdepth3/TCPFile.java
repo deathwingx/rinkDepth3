@@ -1,6 +1,7 @@
 package com.example.rinkdepth3;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -25,6 +26,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class TCPFile
@@ -48,8 +50,7 @@ public class TCPFile
                 return "Didn't Work!";
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            Log.d("uploadData() e:", e.getMessage());        }
         return "I Don't Know How I Got Here!";
     }
 
@@ -59,30 +60,42 @@ public class TCPFile
         {
             Socket socket = new Socket("192.168.1.8", 9090);
             DataInputStream dis = new DataInputStream(socket.getInputStream());
+            BufferedReader read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             int bytes = 0;
             FileInputStream fis = new FileInputStream(file);
-            //dos.writeLong(file.length());
             byte[] buffer = new byte[1024];
-            while ((bytes = fis.read(buffer)) != -1)
+            if (socket.isConnected())
             {
-                dos.write(buffer, 0, bytes);
-                dos.flush();
+                while ((bytes = fis.read(buffer)) != -1)
+                {
+                    dos.write(buffer, 0, bytes);
+                    dos.flush();
+                }
             }
-//            byte[] inBuffer = new byte[1024];
-//            int inBytes = 0;
-//            while ((inBytes = dis.read(inBuffer)) != -1)
-//            {
-//                String message = new String(inBuffer, 0, inBytes);
-//                System.out.print(message);
-//                System.out.flush();
-//            }
-            socket.close();
-            fis.close();
-            return "Done!";
+            socket.shutdownOutput();
+            String res = read.readLine();
+            Log.d("Received: ", res);
+            if (res == "Received!")
+            {
+                socket.close();
+                dos.close();
+                fis.close();
+                read.close();
+                dis.close();
+                return "Done!";
+            }else
+            {
+                socket.close();
+                dos.close();
+                fis.close();
+                read.close();
+                dis.close();
+                return "Didn't work!";
+            }
         }catch (IOException e)
         {
-            e.printStackTrace();
+            Log.d("uploadDocument() e:",e.getMessage());
         }
         return "Didn't work!";
     }
@@ -94,14 +107,14 @@ public class TCPFile
             File newFile = new File(cont.getFilesDir(), file.getName());
             if (!newFile.createNewFile())
             {
-                appendToFile(cont, file, data);
+                appendToFile(cont, newFile, data);
             }else
             {
                 writeToFile(cont, newFile, data);
             }
         }catch (IOException e)
         {
-            e.printStackTrace();
+            Log.d("createFile() e:",e.getMessage());
         }
     }
 
@@ -116,7 +129,7 @@ public class TCPFile
             writer.close();
         }catch (IOException e)
         {
-            e.printStackTrace();
+            Log.d("writeToFile() e:", e.getMessage());
         }
     }
 
@@ -124,7 +137,7 @@ public class TCPFile
     {
         try
         {
-            FileWriter writer = new FileWriter(file);
+            FileWriter writer = new FileWriter(file, true);
             writer.append(data[0]).append(", ");
             writer.append(data[1]).append(", ");
             writer.append(data[2]).append("\n");
@@ -134,12 +147,12 @@ public class TCPFile
             int charsRead = reader.read(buffer, 0 , 20);
             while ((charsRead = reader.read(buffer)) != -1)
             {
-                System.out.print(buffer);
+                Log.d("buffer: ", Arrays.toString(buffer));
             }
             reader.close();
         }catch (IOException e)
         {
-            e.printStackTrace();
+            Log.d("appendToFile() e:", e.getMessage());
         }
     }
 }
