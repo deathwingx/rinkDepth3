@@ -17,3 +17,9 @@ when date is clicked bring up image of ice rink with depths in the
     location they were taken
 
 Add compare function that compares the two dates that get selected
+
+Top left blue line X:470 Y:1040
+Top right blue line X:470 Y:595
+
+Top X:175 Y:822
+Bottom X:1008 Y:822
