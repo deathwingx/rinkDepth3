@@ -9,17 +9,17 @@
         android:id="@+id/navigation_home"
         android:name="com.example.rinkdepth3.ui.proRink.ProRinkFragment"
         android:label="@string/title_proRink"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_prorink" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.rinkdepth3.ui.jrRink.JrRinkFragment"
         android:label="@string/title_jrRink"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_jrrink" />
 
     <fragment
         android:id="@+id/navigation_notification"
         android:name="com.example.rinkdepth3.ui.compare.CompareFragment"
         android:label="@string/title_compare"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_compare" />
 </navigation>

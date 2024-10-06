@@ -9,18 +9,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.rinkdepth3.databinding.FragmentNotificationsBinding;
+import com.example.rinkdepth3.databinding.FragmentCompareBinding;
 
 public class CompareFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private FragmentCompareBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         CompareViewModel notificationsViewModel =
                 new ViewModelProvider(this).get(CompareViewModel.class);
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentCompareBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
 

@@ -22,7 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.rinkdepth3.R;
 import com.example.rinkdepth3.TCPFile;
-import com.example.rinkdepth3.databinding.FragmentDashboardBinding;
+import com.example.rinkdepth3.databinding.FragmentJrrinkBinding;
 
 import java.io.File;
 import java.text.Format;
@@ -33,7 +33,7 @@ import java.util.Objects;
 
 public class JrRinkFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentJrrinkBinding binding;
 
     @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -41,7 +41,7 @@ public class JrRinkFragment extends Fragment {
         JrRinkViewModel jrRinkViewModel =
                 new ViewModelProvider(this).get(JrRinkViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentJrrinkBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         TCPFile tcpFile = new TCPFile();
