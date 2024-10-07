@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
 
 import java.io.BufferedReader;
@@ -80,12 +81,10 @@ public class ViewCompare
             int xVal = (int) xFloat;
             int yVal = (int) yFloat;
             newText.setTextColor(ContextCompat.getColor(cont, R.color.teal_200));
-            //newText.setPadding(xVal + 109, yVal + 285, 0, 0);
-            //newText.setWidth(250);
-            //newText.setHeight(500);
-            newText.setPaddingRelative(xVal + 109, yVal + 285,0,0);
-            //newText.layout(xVal + 109, yVal +285, 0, 0);
-            layout.addView(newText);
+            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+            params.setMargins(xVal, yVal, 0, 0);
+            params.editorAbsoluteX(xVal);
+            layout.addView(newText, params);
             depthData.add(newText);
             Log.d(String.format("data[%s][]: ", x), Arrays.toString(data.get(x)));
         }

@@ -77,13 +77,4 @@
         app:layout_constraintEnd_toStartOf="@+id/newBtn"
         app:layout_constraintTop_toBottomOf="@+id/datePickerView" />
 
-    <LinearLayout
-        android:id="@+id/layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
