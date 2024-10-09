@@ -52,29 +52,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="424dp"
         android:layout_marginEnd="52dp"
-        android:text="New"
+        android:text="@string/new_string"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextDate"
+    <Button
+        android:id="@+id/uploadBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="509dp"
-        android:layout_marginEnd="91dp"
-        android:ems="10"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="22dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/newBtn"
-        app:layout_constraintTop_toBottomOf="@+id/datePickerView" />
+        android:layout_marginEnd="145dp"
+        android:layout_marginBottom="59dp"
+        android:text="@string/upload_string"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,10 @@
 package com.example.rinkdepth3;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,8 +25,7 @@ import java.util.Arrays;
 
 public class ViewCompare
 {
-    public boolean getData(Context cont, ArrayList<TextView> depthData, String date, ConstraintLayout layout) throws IOException {
-        File file = new File(cont.getFilesDir(), (date + ".csv"));
+    public boolean getData(Context cont, ArrayList<TextView> depthData, File file, ConstraintLayout layout) throws IOException {
         ArrayList<String[]> data = new ArrayList<>();
         if (!file.exists())
         {
@@ -37,12 +40,9 @@ public class ViewCompare
             StringBuilder line = new StringBuilder();
             for(int x = 0; x<read.length(); x++)
             {
-                if (read.charAt(x) == ' ')
+                if (read.charAt(x) == ',')
                 {
-                    x++;
-                }else if (read.charAt(x) == ',')
-                {
-                    if (!commaOne && !commaTwo)
+                    if (!commaOne)
                     {
                         commaOne = true;
                         lineData[0] = line.toString();
@@ -73,17 +73,19 @@ public class ViewCompare
         {
             TextView newText = new TextView(cont);
             String[] line = data.get(x);
-            newText.setText(line[0]);
             float xFloat = Float.parseFloat(line[1]);
             xFloat = Math.round(xFloat);
             float yFloat = Float.parseFloat(line[2]);
             yFloat = Math.round(yFloat);
             int xVal = (int) xFloat;
             int yVal = (int) yFloat;
-            newText.setTextColor(ContextCompat.getColor(cont, R.color.teal_200));
+            newText.setTextColor(ContextCompat.getColor(cont, R.color.black));
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
-            params.setMargins(xVal, yVal, 0, 0);
-            params.editorAbsoluteX(xVal);
+            params.setMargins((xVal + 100), (yVal + 10), 0, 0);
+            SpannableString spannableString = SpannableString.valueOf(line[0]);
+            spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, spannableString.length(), 0);
+            newText.setText(spannableString);
+            newText.setLayoutParams(params);
             layout.addView(newText, params);
             depthData.add(newText);
             Log.d(String.format("data[%s][]: ", x), Arrays.toString(data.get(x)));

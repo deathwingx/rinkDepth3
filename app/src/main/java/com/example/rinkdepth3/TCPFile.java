@@ -138,8 +138,8 @@ public class TCPFile
         try
         {
             FileWriter writer = new FileWriter(file, true);
-            writer.append(data[0]).append(", ");
-            writer.append(data[1]).append(", ");
+            writer.append(data[0]).append(",");
+            writer.append(data[1]).append(",");
             writer.append(data[2]).append("\n");
             writer.close();
             FileReader reader = new FileReader(file);

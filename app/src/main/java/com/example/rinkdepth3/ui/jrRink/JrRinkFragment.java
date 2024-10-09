@@ -48,8 +48,8 @@ public class JrRinkFragment extends Fragment {
         Context cont = root.getContext();
         Format f = new SimpleDateFormat("MM/dd/yy", Locale.US);
         String strDate = f.format(new Date());
-        strDate = strDate.replace("/", "") + ".csv";
-        File file = new File(cont.getFilesDir(), strDate);
+        strDate = strDate.replace("/", "");
+        File file = new File(cont.getFilesDir(), strDate + "jr.csv");
         String[] depthxy = new String[3];
         TextView touchLocation;
         ImageView jrRinkImage;
@@ -75,16 +75,13 @@ public class JrRinkFragment extends Fragment {
         });
         uploadButton.setOnClickListener(v -> new Thread(() -> {
             final String res = tcpFile.uploadDocument(cont, file, depthxy);
-            uploadButton.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (Objects.equals(res, "Received!"))
-                    {
-                        Toast.makeText(cont, "Sent!", Toast.LENGTH_SHORT).show();
-                    }else
-                    {
-                        Toast.makeText(cont, "Failed to send!", Toast.LENGTH_SHORT).show();
-                    }
+            uploadButton.post(() -> {
+                if (Objects.equals(res, "Received!"))
+                {
+                    Toast.makeText(cont, "Sent!", Toast.LENGTH_SHORT).show();
+                }else
+                {
+                    Toast.makeText(cont, "Failed to send!", Toast.LENGTH_SHORT).show();
                 }
             });
         }).start());
