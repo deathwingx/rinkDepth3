@@ -1,6 +1,7 @@
 On focus change save values to file or save after each value is inputted
 
 After date is selected and view button is pressed check to see if file exist if not show warning saying file does not exist
+
 Figure out how to change color of specific day when there is a file for that day
 
 Dot on image - click the dot to view the depth
@@ -23,3 +24,5 @@ Top right blue line X:470 Y:595
 
 Top X:175 Y:822
 Bottom X:1008 Y:822
+
+Button to show difference in depth compared to the average depth 
