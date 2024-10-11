@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.jrRink.JrRinkFragment">
+    tools:context=".ui.jrRink.JrRinkFragment"
+    android:id="@+id/jrRinkLayout">
 
     <ImageView
         android:id="@+id/jrRinkImg"
@@ -21,38 +22,60 @@
         android:scaleY="1.7"
         android:src="@drawable/jrrink"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/viewBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="424dp"
+        android:layout_marginEnd="236dp"
+        android:text="@string/view_string"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/touchLocation"
+    <CalendarView
+        android:id="@+id/datePickerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-140dp"
-        android:layout_marginEnd="-230dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/jrRinkImg"
-        app:layout_constraintTop_toBottomOf="@+id/jrRinkImg" />
+        android:layout_marginTop="89dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="304dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView2"
+    <Button
+        android:id="@+id/newBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-325dp"
-        android:layout_marginEnd="176dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/jrRinkImg"
-        app:layout_constraintTop_toBottomOf="@+id/jrRinkImg" />
+        android:layout_marginTop="424dp"
+        android:layout_marginEnd="52dp"
+        android:text="@string/new_string"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/uploadBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="588dp"
-        android:layout_marginEnd="152dp"
+        android:layout_marginEnd="46dp"
+        android:layout_marginBottom="59dp"
         android:text="@string/upload_string"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
+        android:layout_marginBottom="59dp"
+        android:text="@string/back_string"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

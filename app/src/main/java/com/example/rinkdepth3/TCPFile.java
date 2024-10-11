@@ -54,7 +54,7 @@ public class TCPFile
         return "I Don't Know How I Got Here!";
     }
 
-    public String uploadDocument(Context cont, File file, String[] data)
+    public String uploadDocument(Context cont, File file)
     {
         try
         {
@@ -67,11 +67,17 @@ public class TCPFile
             byte[] buffer = new byte[1024];
             if (socket.isConnected())
             {
+                String fileName = file.getName();
+                dos.writeUTF(fileName);
+                dos.flush();
                 while ((bytes = fis.read(buffer)) != -1)
                 {
                     dos.write(buffer, 0, bytes);
                     dos.flush();
                 }
+            }else
+            {
+                return "Didn't work!";
             }
             socket.shutdownOutput();
             String res = read.readLine();

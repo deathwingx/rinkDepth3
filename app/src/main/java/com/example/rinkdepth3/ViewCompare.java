@@ -81,7 +81,7 @@ public class ViewCompare
             int yVal = (int) yFloat;
             newText.setTextColor(ContextCompat.getColor(cont, R.color.black));
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
-            params.setMargins((xVal + 100), (yVal + 10), 0, 0);
+            params.setMargins((xVal - 10), (yVal - 260), 0, 0);
             SpannableString spannableString = SpannableString.valueOf(line[0]);
             spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, spannableString.length(), 0);
             newText.setText(spannableString);
@@ -90,5 +90,48 @@ public class ViewCompare
             depthData.add(newText);
             Log.d(String.format("data[%s][]: ", x), Arrays.toString(data.get(x)));
         }
+    }
+
+    public void compareData(Context cont, File firstDate, File secondDate, ConstraintLayout layout) throws IOException {
+        ArrayList<String[]> fileOneData = readData(firstDate);
+        ArrayList<String[]> fileTwoData = readData(secondDate);
+        //TODO: sort list in ascending order by x value or compare x and y value to eachother? sort by x then iterate through y to find closest one?
+    }
+
+    public ArrayList<String[]> readData(File file) throws IOException {
+        ArrayList<String[]> returnData = new ArrayList<>();
+        BufferedReader readerOne = new BufferedReader(new FileReader(file));
+        String read;
+        boolean commaOne = false, commaTwo = false;
+        while ((read = readerOne.readLine()) != null)
+        {
+            String[] lineData = new String[3];
+            StringBuilder line = new StringBuilder();
+            for(int x = 0; x<read.length(); x++)
+            {
+                if (read.charAt(x) == ',')
+                {
+                    if (!commaOne)
+                    {
+                        commaOne = true;
+                        lineData[0] = line.toString();
+                        line = new StringBuilder();
+                    }else if (!commaTwo)
+                    {
+                        commaTwo = true;
+                        lineData[1] = line.toString();
+                        line = new StringBuilder();
+                    }
+                }else
+                {
+                    line.append(read.charAt(x));
+                }
+            }
+            commaOne = false;
+            commaTwo = false;
+            lineData[2] = line.toString();
+            returnData.add(lineData);
+        }
+        return returnData;
     }
 }

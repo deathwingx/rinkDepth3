@@ -59,9 +59,10 @@ public class ProRinkFragment extends Fragment {
         Button viewButton;
         Button newButton;
         Button uploadButton;
+        Button backButton;
         String[] depthxy = new String[3];
         ArrayList<TextView> depthData = new ArrayList<>();
-        ConstraintLayout layout = (ConstraintLayout) root.findViewById(R.id.proRinkLayout);
+        ConstraintLayout layout = root.findViewById(R.id.proRinkLayout);
 
         Format f = new SimpleDateFormat("MM/dd/yy", Locale.US);
         String strDate = f.format(new Date());
@@ -74,6 +75,7 @@ public class ProRinkFragment extends Fragment {
         viewButton = root.findViewById(R.id.viewBtn);
         newButton = root.findViewById(R.id.newBtn);
         uploadButton = root.findViewById(R.id.uploadBtn);
+        backButton = root.findViewById(R.id.backBtn);
 
         datePicker.setOnDateChangeListener((calendarView, year, month, day) -> {
             StringBuilder builder = new StringBuilder();
@@ -93,8 +95,9 @@ public class ProRinkFragment extends Fragment {
                 try {
                     viewButton.setVisibility(Button.INVISIBLE);
                     newButton.setVisibility(Button.INVISIBLE);
-                    datePicker.setVisibility(DatePicker.INVISIBLE);
+                    datePicker.setVisibility(CalendarView.INVISIBLE);
                     proRinkImg.setVisibility(ImageView.VISIBLE);
+                    backButton.setVisibility(Button.VISIBLE);
                     fileExist = viewCompare.getData(cont, depthData, viewFile, layout);
                 } catch (IOException e) {
                     Log.d("viewData() e: ", e.getMessage());
@@ -107,26 +110,26 @@ public class ProRinkFragment extends Fragment {
             newButton.setOnClickListener(v -> {
                 viewButton.setVisibility(Button.INVISIBLE);
                 newButton.setVisibility(Button.INVISIBLE);
-                datePicker.setVisibility(DatePicker.INVISIBLE);
+                datePicker.setVisibility(CalendarView.INVISIBLE);
                 proRinkImg.setVisibility(ImageView.VISIBLE);
                 uploadButton.setVisibility(Button.VISIBLE);
+                backButton.setVisibility(Button.VISIBLE);
                 file.set(new File(cont.getFilesDir(), newDate + "pro.csv"));
+                proRinkImg.setOnTouchListener((v1, event) -> {
+                    final int action = event.getAction();
+                    if (action == MotionEvent.ACTION_UP)
+                    {
+                        depthxy[0] = showBuilder(cont, depthxy, file.get());
+                        depthxy[1] = String.valueOf(event.getRawX());
+                        depthxy[2] = String.valueOf(event.getRawY());
+                    }
+                    return false;
+                });
             });
         });
 
-        proRinkImg.setOnTouchListener((v, event) -> {
-            final int action = event.getAction();
-            if (action == MotionEvent.ACTION_UP)
-            {
-                depthxy[0] = showBuilder(cont, depthxy, file.get());
-                depthxy[1] = String.valueOf(event.getRawX());
-                depthxy[2] = String.valueOf(event.getRawY());
-            }
-            return false;
-        });
-
         uploadButton.setOnClickListener(v -> new Thread(() -> {
-            final String res = tcpfile.uploadDocument(cont, file.get(), depthxy);
+            final String res = tcpfile.uploadDocument(cont, file.get());
             uploadButton.post(() -> {
                 if (Objects.equals(res, "Received!"))
                 {
@@ -137,6 +140,20 @@ public class ProRinkFragment extends Fragment {
                 }
             });
         }).start());
+
+        backButton.setOnClickListener(v -> {
+            viewButton.setVisibility(Button.VISIBLE);
+            newButton.setVisibility(Button.VISIBLE);
+            backButton.setVisibility(Button.INVISIBLE);
+            uploadButton.setVisibility(Button.INVISIBLE);
+            datePicker.setVisibility(CalendarView.VISIBLE);
+            proRinkImg.setVisibility(ImageView.INVISIBLE);
+            for (int x = 0; x < depthData.size(); x++)
+            {
+                TextView tempText = depthData.get(x);
+                tempText.setVisibility(TextView.INVISIBLE);
+            }
+        });
 
         newButton.setOnClickListener(v -> Toast.makeText(cont, "Select a date first!", Toast.LENGTH_SHORT).show());
 
