@@ -22,6 +22,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ViewCompare
 {
@@ -92,10 +94,41 @@ public class ViewCompare
         }
     }
 
+    public TextView viewData(Context cont, String[] data, ConstraintLayout layout)
+    {
+
+        TextView newText = new TextView(cont);
+        float xFloat = Float.parseFloat(data[1]);
+        xFloat = Math.round(xFloat);
+        float yFloat = Float.parseFloat(data[2]);
+        yFloat = Math.round(yFloat);
+        int xVal = (int) xFloat;
+        int yVal = (int) yFloat;
+        newText.setTextColor(ContextCompat.getColor(cont, R.color.black));
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+        params.setMargins((xVal - 10), (yVal - 260), 0, 0);
+        SpannableString spannableString = SpannableString.valueOf(data[0]);
+        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, spannableString.length(), 0);
+        newText.setText(spannableString);
+        newText.setLayoutParams(params);
+        layout.addView(newText, params);
+        return newText;
+    }
+
     public void compareData(Context cont, File firstDate, File secondDate, ConstraintLayout layout) throws IOException {
         ArrayList<String[]> fileOneData = readData(firstDate);
         ArrayList<String[]> fileTwoData = readData(secondDate);
-        //TODO: sort list in ascending order by x value or compare x and y value to eachother? sort by x then iterate through y to find closest one?
+        //TODO: *sort by x(will sort values left to right on screen) then iterate through y to find one within a certain amount* or reverse and sort by y (top to bottom so rows across
+        //TODO: are grouped together) then iterate through x to find one within a certain amount
+        for (int x = 0; x < fileOneData.size(); x++)
+        {
+            Log.i(String.format("fileOneData[%d]: ", x), Arrays.toString(fileOneData.get(x)));
+        }
+        fileOneData.sort((o1, o2) -> Float.compare(Float.parseFloat(o1[1]), Float.parseFloat(o2[1])));
+        for (int x = 0; x < fileOneData.size(); x++)
+        {
+            Log.i(String.format("fileOneData[%d]: ", x), Arrays.toString(fileOneData.get(x)));
+        }
     }
 
     public ArrayList<String[]> readData(File file) throws IOException {

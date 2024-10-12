@@ -118,6 +118,11 @@ public class CompareFragment extends Fragment {
                 {
                     File temp1 = new File(cont.getFilesDir(), newDate + "jr.csv");
                     fileTwo.set(temp1);
+                    try {
+                        viewCompare.compareData(cont, fileOne.get(), fileTwo.get(), layout);
+                    } catch (IOException e) {
+                        Log.d("compareData() e: ", e.getMessage());
+                    }
                 }
 
             }else

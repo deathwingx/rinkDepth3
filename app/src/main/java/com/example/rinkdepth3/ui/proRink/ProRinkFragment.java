@@ -62,6 +62,7 @@ public class ProRinkFragment extends Fragment {
         Button backButton;
         String[] depthxy = new String[3];
         ArrayList<TextView> depthData = new ArrayList<>();
+        ArrayList<TextView> newData = new ArrayList<>();
         ConstraintLayout layout = root.findViewById(R.id.proRinkLayout);
 
         Format f = new SimpleDateFormat("MM/dd/yy", Locale.US);
@@ -119,7 +120,7 @@ public class ProRinkFragment extends Fragment {
                     final int action = event.getAction();
                     if (action == MotionEvent.ACTION_UP)
                     {
-                        depthxy[0] = showBuilder(cont, depthxy, file.get());
+                        depthxy[0] = showBuilder(cont, depthxy, file.get(), newData, layout);
                         depthxy[1] = String.valueOf(event.getRawX());
                         depthxy[2] = String.valueOf(event.getRawY());
                     }
@@ -153,6 +154,11 @@ public class ProRinkFragment extends Fragment {
                 TextView tempText = depthData.get(x);
                 tempText.setVisibility(TextView.INVISIBLE);
             }
+            for (int x = 0; x < newData.size(); x++)
+            {
+                TextView tempText = newData.get(x);
+                tempText.setVisibility(TextView.INVISIBLE);
+            }
         });
 
         newButton.setOnClickListener(v -> Toast.makeText(cont, "Select a date first!", Toast.LENGTH_SHORT).show());
@@ -162,8 +168,9 @@ public class ProRinkFragment extends Fragment {
         return root;
     }
 
-    public String showBuilder(Context cont, String[] depthxy, File file)
+    public String showBuilder(Context cont, String[] depthxy, File file, ArrayList<TextView> newData, ConstraintLayout layout)
     {
+        ViewCompare viewCompare = new ViewCompare();
         TCPFile tcpFile = new TCPFile();
         AlertDialog.Builder builder = new AlertDialog.Builder(cont);
         builder.setTitle("Depth");
@@ -173,6 +180,7 @@ public class ProRinkFragment extends Fragment {
         builder.setPositiveButton("OK", (dialog, which) -> {
             depthxy[0] = input.getText().toString();
             tcpFile.createFile(cont, file, depthxy);
+            newData.add(viewCompare.viewData(cont, depthxy, layout));
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         AlertDialog alert = builder.create();
