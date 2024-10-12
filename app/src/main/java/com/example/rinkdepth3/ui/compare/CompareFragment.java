@@ -175,6 +175,7 @@ public class CompareFragment extends Fragment {
             dateTwo.setVisibility(TextView.INVISIBLE);
             jrSelected.set(false);
             proSelected.set(false);
+//TODO: Reset dates selected back to empty string and reset dayOneSelected to false 
         });
 
         selectButton.setOnClickListener(v -> Toast.makeText(cont, "Select date first!", Toast.LENGTH_SHORT).show());
