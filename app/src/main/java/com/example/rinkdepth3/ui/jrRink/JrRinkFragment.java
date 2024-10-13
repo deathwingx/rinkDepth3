@@ -56,12 +56,11 @@ public class JrRinkFragment extends Fragment {
         Context cont = root.getContext();
 
         String[] depthxy = new String[3];
+        float[] averages = new float[3];
         ImageView jrRinkImg;
         CalendarView datePicker;
-        Button viewButton;
-        Button newButton;
-        Button backButton;
-        Button uploadButton;
+        Button viewButton, newButton, uploadButton, backButton;
+        TextView overallAverage, outsideAverage, insideAverage, overallAverageLabel, outsideAverageLabel, insideAverageLabel;
         ArrayList<TextView> depthData = new ArrayList<>();
         ConstraintLayout layout = root.findViewById(R.id.jrRinkLayout);
 
@@ -99,7 +98,7 @@ public class JrRinkFragment extends Fragment {
                     datePicker.setVisibility(CalendarView.INVISIBLE);
                     jrRinkImg.setVisibility(ImageView.VISIBLE);
                     backButton.setVisibility(Button.VISIBLE);
-                    fileExist = viewCompare.getData(cont, depthData, viewFile, layout);
+                    fileExist = viewCompare.getData(cont, depthData, viewFile, averages, layout);
                 } catch (IOException e) {
                     Log.d("viewData() e: ", e.getMessage());
                 }

@@ -27,7 +27,37 @@ import java.util.Comparator;
 
 public class ViewCompare
 {
-    public boolean getData(Context cont, ArrayList<TextView> depthData, File file, ConstraintLayout layout) throws IOException {
+    private float[] getAverage(ArrayList<String[]> data)
+    {
+        float[] averageArray = new float[3];
+        float average = 0;
+        float outsideAverage = 0;
+        float insideAverage = 0;
+        for (int x = 0; x < data.size(); x++)
+        {
+            String[] depthLine = data.get(x);
+            float depthFloat = Float.parseFloat(depthLine[0]);
+            float xVal = Float.parseFloat(depthLine[1]);
+            float yVal = Float.parseFloat(depthLine[2]);
+            average += depthFloat;
+            boolean leftXval = (xVal <= 255);
+            boolean rightXVal = (xVal >= 805);
+            boolean topYVal = (yVal <= 425);
+            boolean bottomYVal = (yVal >= 1750);
+            if (leftXval || rightXVal || topYVal || bottomYVal)
+            {
+                average += depthFloat;
+                outsideAverage += depthFloat;
+            }else
+            {
+                average += depthFloat;
+                insideAverage += depthFloat;
+            }
+        }
+        return averageArray;
+    }
+
+    public boolean getData(Context cont, ArrayList<TextView> depthData, File file, float[] average, ConstraintLayout layout) throws IOException {
         ArrayList<String[]> data = new ArrayList<>();
         if (!file.exists())
         {
@@ -69,7 +99,7 @@ public class ViewCompare
         return true;
     }
 
-    public void viewData(Context cont, ArrayList<TextView> depthData, ArrayList<String[]> data, ConstraintLayout layout)
+    private void viewData(Context cont, ArrayList<TextView> depthData, ArrayList<String[]> data, ConstraintLayout layout)
     {
         for (int x = 0; x < data.size(); x++)
         {
@@ -124,14 +154,16 @@ public class ViewCompare
         {
             Log.i(String.format("fileOneData[%d]: ", x), Arrays.toString(fileOneData.get(x)));
         }
-        fileOneData.sort((o1, o2) -> Float.compare(Float.parseFloat(o1[1]), Float.parseFloat(o2[1])));
+        fileOneData.sort((o1, o2) -> Float.compare(Float.parseFloat(o1[2]), Float.parseFloat(o2[2])));
+        fileTwoData.sort((o1, o2) -> Float.compare(Float.parseFloat(o1[2]), Float.parseFloat(o2[2])));
         for (int x = 0; x < fileOneData.size(); x++)
         {
             Log.i(String.format("fileOneData[%d]: ", x), Arrays.toString(fileOneData.get(x)));
         }
+
     }
 
-    public ArrayList<String[]> readData(File file) throws IOException {
+    private ArrayList<String[]> readData(File file) throws IOException {
         ArrayList<String[]> returnData = new ArrayList<>();
         BufferedReader readerOne = new BufferedReader(new FileReader(file));
         String read;

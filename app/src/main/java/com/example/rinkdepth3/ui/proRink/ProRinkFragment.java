@@ -42,7 +42,7 @@ public class ProRinkFragment extends Fragment {
 
     private FragmentProrinkBinding binding;
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "DefaultLocale"})
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         ProRinkViewModel homeViewModel =
@@ -56,11 +56,10 @@ public class ProRinkFragment extends Fragment {
         Context cont = root.getContext();
         ImageView proRinkImg;
         CalendarView datePicker;
-        Button viewButton;
-        Button newButton;
-        Button uploadButton;
-        Button backButton;
+        Button viewButton, newButton, uploadButton, backButton;
+        TextView overallAverage, outsideAverage, insideAverage, overallAverageLabel, outsideAverageLabel, insideAverageLabel;
         String[] depthxy = new String[3];
+        float[] averages = new float[3];
         ArrayList<TextView> depthData = new ArrayList<>();
         ArrayList<TextView> newData = new ArrayList<>();
         ConstraintLayout layout = root.findViewById(R.id.proRinkLayout);
@@ -77,6 +76,12 @@ public class ProRinkFragment extends Fragment {
         newButton = root.findViewById(R.id.newBtn);
         uploadButton = root.findViewById(R.id.uploadBtn);
         backButton = root.findViewById(R.id.backBtn);
+        overallAverage = root.findViewById(R.id.averageNumber);
+        outsideAverage = root.findViewById(R.id.outsideNumber);
+        insideAverage = root.findViewById(R.id.insideNumber);
+        overallAverageLabel = root.findViewById(R.id.averageText);
+        outsideAverageLabel = root.findViewById(R.id.outsideAverage);
+        insideAverageLabel = root.findViewById(R.id.insideAverage);
 
         datePicker.setOnDateChangeListener((calendarView, year, month, day) -> {
             StringBuilder builder = new StringBuilder();
@@ -99,7 +104,16 @@ public class ProRinkFragment extends Fragment {
                     datePicker.setVisibility(CalendarView.INVISIBLE);
                     proRinkImg.setVisibility(ImageView.VISIBLE);
                     backButton.setVisibility(Button.VISIBLE);
-                    fileExist = viewCompare.getData(cont, depthData, viewFile, layout);
+                    overallAverageLabel.setVisibility(TextView.VISIBLE);
+                    outsideAverageLabel.setVisibility(TextView.VISIBLE);
+                    insideAverageLabel.setVisibility(TextView.VISIBLE);
+                    overallAverage.setVisibility(TextView.VISIBLE);
+                    outsideAverage.setVisibility(TextView.VISIBLE);
+                    insideAverage.setVisibility(TextView.VISIBLE);
+                    fileExist = viewCompare.getData(cont, depthData, viewFile, averages, layout);
+                    overallAverage.setText(String.format("%.3f", averages[0]));
+                    outsideAverage.setText(String.format("%.3f", averages[1]));
+                    insideAverage.setText(String.format("%.3f", averages[2]));
                 } catch (IOException e) {
                     Log.d("viewData() e: ", e.getMessage());
                 }
@@ -149,6 +163,12 @@ public class ProRinkFragment extends Fragment {
             uploadButton.setVisibility(Button.INVISIBLE);
             datePicker.setVisibility(CalendarView.VISIBLE);
             proRinkImg.setVisibility(ImageView.INVISIBLE);
+            overallAverageLabel.setVisibility(TextView.INVISIBLE);
+            outsideAverageLabel.setVisibility(TextView.INVISIBLE);
+            insideAverageLabel.setVisibility(TextView.INVISIBLE);
+            overallAverage.setVisibility(TextView.INVISIBLE);
+            outsideAverage.setVisibility(TextView.INVISIBLE);
+            insideAverage.setVisibility(TextView.INVISIBLE);
             for (int x = 0; x < depthData.size(); x++)
             {
                 TextView tempText = depthData.get(x);
