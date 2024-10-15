@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,7 +35,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class ProRinkFragment extends Fragment {
 
@@ -59,7 +60,8 @@ public class ProRinkFragment extends Fragment {
         Button viewButton, newButton, uploadButton, backButton;
         TextView overallAverage, outsideAverage, insideAverage, overallAverageLabel, outsideAverageLabel, insideAverageLabel;
         String[] depthxy = new String[3];
-        float[] averages = new float[3];
+        //AtomicReferenceArray averages = new AtomicReferenceArray<>(new float[3]);
+        AtomicReference<float[]> averages = new AtomicReference<>(new float[3]);
         ArrayList<TextView> depthData = new ArrayList<>();
         ArrayList<TextView> newData = new ArrayList<>();
         ConstraintLayout layout = root.findViewById(R.id.proRinkLayout);
@@ -110,16 +112,13 @@ public class ProRinkFragment extends Fragment {
                     overallAverage.setVisibility(TextView.VISIBLE);
                     outsideAverage.setVisibility(TextView.VISIBLE);
                     insideAverage.setVisibility(TextView.VISIBLE);
-                    fileExist = viewCompare.getData(cont, depthData, viewFile, averages, layout);
-                    overallAverage.setText(String.format("%.3f", averages[0]));
-                    outsideAverage.setText(String.format("%.3f", averages[1]));
-                    insideAverage.setText(String.format("%.3f", averages[2]));
+                    final float[] averageFloat = viewCompare.getData(cont, depthData, viewFile, layout);
+                    averages.set(averageFloat);
+                    overallAverage.setText(String.format("%.3f", averageFloat[0]));
+                    outsideAverage.setText(String.format("%.3f", averageFloat[1]));
+                    insideAverage.setText(String.format("%.3f", averageFloat[2]));
                 } catch (IOException e) {
                     Log.d("viewData() e: ", e.getMessage());
-                }
-                if (!fileExist)
-                {
-                    Toast.makeText(cont, "File Does Not Exist!", Toast.LENGTH_SHORT).show();
                 }
             });
             newButton.setOnClickListener(v -> {

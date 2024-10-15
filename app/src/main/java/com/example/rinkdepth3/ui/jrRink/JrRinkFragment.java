@@ -92,20 +92,12 @@ public class JrRinkFragment extends Fragment {
             File viewFile = new File(cont.getFilesDir(), newDate + "jr.csv");
             viewButton.setOnClickListener(v -> {
                 boolean fileExist = false;
-                try {
-                    viewButton.setVisibility(Button.INVISIBLE);
-                    newButton.setVisibility(Button.INVISIBLE);
-                    datePicker.setVisibility(CalendarView.INVISIBLE);
-                    jrRinkImg.setVisibility(ImageView.VISIBLE);
-                    backButton.setVisibility(Button.VISIBLE);
-                    fileExist = viewCompare.getData(cont, depthData, viewFile, averages, layout);
-                } catch (IOException e) {
-                    Log.d("viewData() e: ", e.getMessage());
-                }
-                if (!fileExist)
-                {
-                    Toast.makeText(cont, "File Does Not Exist!", Toast.LENGTH_SHORT).show();
-                }
+                viewButton.setVisibility(Button.INVISIBLE);
+                newButton.setVisibility(Button.INVISIBLE);
+                datePicker.setVisibility(CalendarView.INVISIBLE);
+                jrRinkImg.setVisibility(ImageView.VISIBLE);
+                backButton.setVisibility(Button.VISIBLE);
+                //fileExist = viewCompare.getData(cont, depthData, viewFile, layout);
             });
             newButton.setOnClickListener(v -> {
                 viewButton.setVisibility(Button.INVISIBLE);

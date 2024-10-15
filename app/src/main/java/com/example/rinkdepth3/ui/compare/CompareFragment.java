@@ -24,6 +24,7 @@ import com.example.rinkdepth3.ViewCompare;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -49,6 +50,7 @@ public class CompareFragment extends Fragment {
         AtomicReference<File> fileOne = new AtomicReference<>(temp);
         AtomicReference<File> fileTwo = new AtomicReference<>(temp);
         ConstraintLayout layout = root.findViewById(R.id.compareLayout);
+        ArrayList<TextView> depthData = new ArrayList<>();
         Button proButton;
         Button jrButton;
         Button backButton;
@@ -119,7 +121,7 @@ public class CompareFragment extends Fragment {
                     File temp1 = new File(cont.getFilesDir(), newDate + "jr.csv");
                     fileTwo.set(temp1);
                     try {
-                        viewCompare.compareData(cont, fileOne.get(), fileTwo.get(), layout);
+                        viewCompare.compareData(cont, fileOne.get(), fileTwo.get(), depthData, layout);
                     } catch (IOException e) {
                         Log.d("compareData() e: ", e.getMessage());
                     }
@@ -157,7 +159,21 @@ public class CompareFragment extends Fragment {
                 }else
                 {
                     try {
-                        viewCompare.compareData(cont, fileOne.get(), fileTwo.get(), layout);
+                        proButton.setVisibility(Button.INVISIBLE);
+                        jrButton.setVisibility(Button.INVISIBLE);
+                        selectButton.setVisibility(Button.INVISIBLE);
+                        backButton.setVisibility(Button.VISIBLE);
+                        datePicker.setVisibility(CalendarView.INVISIBLE);
+                        dateOne.setVisibility(TextView.INVISIBLE);
+                        dateTwo.setVisibility(TextView.INVISIBLE);
+                        if (proSelected.get())
+                        {
+                            proRinkImage.setVisibility(ImageView.VISIBLE);
+                        }else
+                        {
+                            jrRinkImage.setVisibility(ImageView.VISIBLE);
+                        }
+                        viewCompare.compareData(cont, fileOne.get(), fileTwo.get(),depthData, layout);
                     } catch (IOException e) {
                         Log.d("CompareData() e: ", e.getMessage());
                     }
@@ -173,6 +189,20 @@ public class CompareFragment extends Fragment {
             datePicker.setVisibility(CalendarView.INVISIBLE);
             dateOne.setVisibility(TextView.INVISIBLE);
             dateTwo.setVisibility(TextView.INVISIBLE);
+            proRinkImage.setVisibility(ImageView.INVISIBLE);
+            jrRinkImage.setVisibility(ImageView.INVISIBLE);
+            if (!depthData.isEmpty())
+            {
+                for (int x = 0; x < depthData.size(); x++)
+                {
+                    TextView tempText = depthData.get(x);
+                    tempText.setVisibility(TextView.INVISIBLE);
+                }
+            }
+            dateOne.setText("");
+            dateTwo.setText("");
+            dateOneSelected.set(false);
+            dateTwoSelected.set(false);
             jrSelected.set(false);
             proSelected.set(false);
 //TODO: Reset dates selected back to empty string and reset dayOneSelected to false 
