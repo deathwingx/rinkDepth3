@@ -99,7 +99,6 @@ public class ProRinkFragment extends Fragment {
             final String newDate = date.replace("/", "");
             File viewFile = new File(cont.getFilesDir(), newDate + "pro.csv");
             viewButton.setOnClickListener(v -> {
-                boolean fileExist = false;
                 try {
                     viewButton.setVisibility(Button.INVISIBLE);
                     newButton.setVisibility(Button.INVISIBLE);

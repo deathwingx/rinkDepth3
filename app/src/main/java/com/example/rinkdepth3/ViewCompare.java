@@ -118,7 +118,7 @@ public class ViewCompare
             int yVal = (int) yFloat;
             newText.setTextColor(ContextCompat.getColor(cont, R.color.black));
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
-            params.setMargins((xVal - 50), (yVal - 260), 0, 0);
+            params.setMargins((xVal - 30), (yVal - 260), 0, 0);
             SpannableString spannableString = SpannableString.valueOf(line[0]);
             spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, spannableString.length(), 0);
             newText.setText(spannableString);
@@ -188,23 +188,23 @@ public class ViewCompare
                         layout.addView(newText, params);
                         depthData.add(newText);
                         break;
-                    } else if ((fileTwoXY + 1) == FileTwoData.size())
-                    {
-                        int xVal = (int)Float.parseFloat(fileOne[1]);
-                        int yVal = (int)Float.parseFloat(fileOne[2]);
-                        TextView newText = new TextView(cont);
-                        newText.setTextColor(ContextCompat.getColor(cont, R.color.black));
-                        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
-                        params.setMargins((xVal - 50), (yVal - 260), 0, 0);
-                        float fileOneDepth = Float.parseFloat(fileOne[0]);
-                        @SuppressLint("DefaultLocale") SpannableString spannableString = SpannableString.valueOf(String.format("%.3f", fileOneDepth));
-                        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, spannableString.length(), 0);;
-                        newText.setText(spannableString);
-                        newText.setLayoutParams(params);
-                        layout.addView(newText, params);
-                        depthData.add(newText);
-                        break;
                     }
+                } else if ((fileTwoXY + 1) == fileTwoData.size())
+                {
+                    int xVal = (int)Float.parseFloat(fileOne[1]);
+                    int yVal = (int)Float.parseFloat(fileOne[2]);
+                    TextView newText = new TextView(cont);
+                    newText.setTextColor(ContextCompat.getColor(cont, R.color.black));
+                    ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+                    params.setMargins((xVal - 50), (yVal - 260), 0, 0);
+                    float fileOneDepth = Float.parseFloat(fileOne[0]);
+                    @SuppressLint("DefaultLocale") SpannableString spannableString = SpannableString.valueOf(String.format("%.3f", fileOneDepth));
+                    spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, spannableString.length(), 0);;
+                    newText.setText(spannableString);
+                    newText.setLayoutParams(params);
+                    layout.addView(newText, params);
+                    depthData.add(newText);
+                    break;
                 }
             }
         }
