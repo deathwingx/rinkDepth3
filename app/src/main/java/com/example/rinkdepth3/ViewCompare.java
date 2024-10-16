@@ -188,7 +188,7 @@ public class ViewCompare
                         layout.addView(newText, params);
                         depthData.add(newText);
                         break;
-                    } else if ((fileOneXY + 1) == fileOneData.size())
+                    } else if ((fileTwoXY + 1) == FileTwoData.size())
                     {
                         int xVal = (int)Float.parseFloat(fileOne[1]);
                         int yVal = (int)Float.parseFloat(fileOne[2]);
